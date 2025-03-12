@@ -1,0 +1,21 @@
+docker images -a
+docker rmi
+docker build -t webspark-ubuntu:v1.0 .
+
+docker run -d --name webspark-container webspark-ubuntu:v1.0 tail -f /dev/null
+
+docker exec -it f6de4d24664d bash
+
+
+-------------------------------------
+
+docker network create --driver bridge my-network
+
+docker network ls
+
+
+docker-compose -f sopa-compose.yml up
+
+docker-compose -f ghost-compose-file.yml up
+
+-----------------------------------------

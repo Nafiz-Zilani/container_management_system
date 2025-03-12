@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  price:
+    image: price-imagefile:latest
+    container_name: price
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.price.rule=Host(`price.localhost`)"
+      - "traefik.docker.network=my-network"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  web:
+    image: nginx:latest
+    container_name: web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`web.localhost`)"
+      - "traefik.docker.network=my-network"
+    depends_on:
+      - traefik
+    networks:
+      - my-network
+
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"  # Define websecure entry point
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"  # Expose port 443 for HTTPS
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock" # Make sure acme.json exists with appropriate permissions
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

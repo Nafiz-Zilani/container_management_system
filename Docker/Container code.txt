@@ -1,0 +1,25 @@
+  webSpark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: webspark-ubuntu:v1.0
+    container_name: webspark-ubuntu
+    command: tail -f /dev/null
+    ports:
+      - "8083:8080"
+    depends_on:
+      - traefik
+    networks:
+      - my-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "60000:80"
+    labels:
+      - "traefik.http.routers.nginx.rule=Host(`nginx.localhost`)"
+    depends_on:
+      - traefik
+    networks:
+      - my-network

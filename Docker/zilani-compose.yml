@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  zilani:
+    image: zilani-imagefile:latest
+    container_name: zilani
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zilani.rule=Host(`zilani.localhost`)"
+      - "traefik.docker.network=my-network"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
